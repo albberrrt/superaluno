@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistema de Pontuação Semanal</title>
+  <!-- html2pdf CDN used for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+  <script src="./js/main.js" defer></script>
+  <script src="./js/export-pdf-script.js" defer></script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+
+</head>
+
+<body>
+  <header>
+    <h1>Sistema de Pontuação Semanal</h1>
+    <div class="top-controls">
+      <button id="addStudentBtn">+ Cadastrar aluno</button>
+      <button id="exportWeekBtn">Exportar PDF da semana</button>
+      <button id="exportStudentBtn">Exportar por aluno</button>
+      <button id="resetWeekBtn" class="ghost">Resetar semana</button>
+      <button id="themeToggle" class="ghost">Alternar tema</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <div class="form-row">
+        <label>Pesquisar aluno</label>
+        <input id="searchInput" placeholder="Nome..." />
+      </div>
+      <div class="form-row">
+        <label>Filtro por dia</label>
+        <select id="filterDay">
+          <option value="all">Todos os dias</option>
+          <option value="1">Segunda</option>
+          <option value="2">Terça</option>
+          <option value="3">Quarta</option>
+          <option value="4">Quinta</option>
+          <option value="5">Sexta</option>
+          <option value="6">Sábado</option>
+        </select>
+      </div>
+
+      <h3 style="margin-top:8px">Alunos</h3>
+      <div class="students-list" id="studentsList"></div>
+      <div style="margin-top:8px" class="small">Dica: arraste o card para mover o dia da aula. Crie cards provisórios
+        para reposições.</div>
+    </aside>
+
+    <main class="main">
+      <div class="board" id="board"></div>
+    </main>
+  </div>
+
+  <!-- Templates -->
+  <template id="cardTemplate">
+    <div class="card" draggable="true">
+      <div class="studentHeader">
+        <div>
+          <strong class="studentName"></strong>
+          <div class="cardDate"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="markAbsent ghost" title="Marcar ausência">Ausente</button>
+          <button class="delCard ghost">Remover</button>
+        </div>
+      </div>
+
+      <div class="row fade-in">
+        <div>Bom comportamento</div>
+        <div class="check"><label><input type="checkbox" class="chk-good" /></label></div>
+        <div class="check"><label><input type="checkbox" class="chk-no-good" /></label></div>
+        <div class="points">-</div>
+      </div>
+      <div class="row fade-in">
+        <div>Trouxe material didático</div>
+        <div class="check"><label><input type="checkbox" class="chk-material" /></label></div>
+        <div class="check"><label><input type="checkbox" class="chk-no-material" /></label></div>
+        <div class="points">-</div>
+      </div>
+      <div class="row fade-in">
+        <div>Atingiu 80% ou mais na avaliação de nível</div>
+        <div class="check"><label><input type="checkbox" class="chk-level" /></label></div>
+        <div class="check"><label><input type="checkbox" class="chk-no-level" /></label></div>
+        <div class="points">-</div>
+      </div>
+      <div class="row fade-in">
+        <div>Realizou projetos extras</div>
+        <div class="check"><label><input type="checkbox" class="chk-project" /></label></div>
+        <div class="check"><label><input type="checkbox" class="chk-no-project" /></label></div>
+        <div class="points">-</div>
+      </div>
+      <div class="row fade-in">
+        <div>Realizou atividades extras</div>
+        <div class="check"><label><input type="checkbox" class="chk-activity" /></label></div>
+        <div class="check"><label><input type="checkbox" class="chk-no-activity" /></label></div>
+        <div class="points">-</div>
+      </div>
+      <div class="total">
+        <div class="small">Total</div>
+        <div class="totalPoints">0</div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Modal for creating student -->
+  <div class="modal" id="studentModal">
+    <div class="modal-content">
+      <h3>Cadastrar aluno</h3>
+      <div class="modal-error" id="modalError"></div>
+      <label for="modalStudentName">Nome do aluno</label>
+      <input type="text" id="modalStudentName" maxlength="40" autocomplete="off" />
+      <label>Dias de aula</label>
+      <div class="modal-days" id="modalDays">
+        <label><input type="checkbox" value="1" />Segunda</label>
+        <label><input type="checkbox" value="2" />Terça</label>
+        <label><input type="checkbox" value="3" />Quarta</label>
+        <label><input type="checkbox" value="4" />Quinta</label>
+        <label><input type="checkbox" value="5" />Sexta</label>
+        <label><input type="checkbox" value="6" />Sábado</label>
+      </div>
+      <div class="modal-actions">
+        <button id="modalCancelBtn" class="ghost">Cancelar</button>
+        <button id="modalCreateBtn">Criar</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

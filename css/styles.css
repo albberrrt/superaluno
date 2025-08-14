@@ -1,0 +1,374 @@
+
+:root {
+  --bg-light: linear-gradient(135deg, #f8fafc 0%, #e6eef6 100%);
+  --bg-dark: linear-gradient(135deg, #0b1220 0%, #0f172a 100%);
+  --card-grad-light: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+  --card-grad-dark: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  --accent: linear-gradient(90deg, #00b4d8, #0077b6);
+  /* novo gradiente azul */
+  --glass-light: rgba(255, 255, 255, 0.65);
+  --glass-dark: rgba(17, 24, 39, 0.5);
+  --shadow: 0 6px 18px rgba(23, 31, 56, 0.08);
+  --muted-light: #64748b;
+  --muted-dark: #94a3b8;
+}
+
+* {
+  box-sizing: border-box
+}
+
+/* fundo fixo (não se move quando a página rola horizontalmente) */
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin: 0;
+  padding: 20px;
+  color: #0f172a;
+  background: var(--bg-light);
+  background-attachment: fixed;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+body.dark {
+  background: var(--bg-dark);
+  color: #eef2ff
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px
+}
+
+h1 {
+  font-size: 18px;
+  margin: 0
+}
+
+.top-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center
+}
+
+button {
+  background: var(--accent);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  font-weight: 600
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--muted-light);
+  border: 1px solid rgba(15, 23, 42, 0.06)
+}
+
+body.dark button.ghost {
+  color: var(--muted-dark);
+  border: 1px solid rgba(255, 255, 255, 0.06)
+}
+
+/* layout */
+.container {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 16px;
+  margin-top: 18px;
+  overflow-x: auto;
+  padding-bottom: 8px
+}
+
+/* sidebar */
+.sidebar {
+  background: var(--card-grad-light);
+  padding: 12px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  min-height: 320px;
+  overflow-x: hidden
+}
+
+body.dark .sidebar {
+  background: var(--card-grad-dark)
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px
+}
+
+label {
+  font-size: 12px;
+  color: var(--muted-light);
+  margin-bottom: 6px
+}
+
+body.dark label {
+  color: var(--muted-dark)
+}
+
+input,
+select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.06)
+}
+
+/* corrigir slider horizontal: esconder overflow-x e permitir wrap */
+.students-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden
+}
+
+.student-pill {
+  background: linear-gradient(90deg, #ffffff, #f4f6fb);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  word-break: break-word
+}
+
+body.dark .student-pill {
+  background: linear-gradient(90deg, #24303a, #1b2830);
+  color: #e6eef8
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px
+}
+
+/* board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, 280px);
+  gap: 12px;
+  align-items: start
+}
+
+@media (max-width:1200px) {
+  .board {
+    grid-template-columns: repeat(3, 1fr)
+  }
+}
+
+@media (max-width:700px) {
+  .board {
+    grid-template-columns: repeat(1, 1fr)
+  }
+}
+
+.column {
+  background: var(--card-grad-light);
+  padding: 12px;
+  border-radius: 12px;
+  min-height: 260px
+}
+
+body.dark .column {
+  background: linear-gradient(180deg, #0f1724, #0b1220)
+}
+
+.col-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px
+}
+
+.col-header .title {
+  font-weight: 700
+}
+
+.col-header .date {
+  font-size: 13px;
+  color: var(--muted-light);
+  margin-left: 6px
+}
+
+body.dark .col-header .date {
+  color: var(--muted-dark)
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px
+}
+
+.card {
+  background: var(--glass-light);
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  cursor: grab
+}
+
+body.dark .card {
+  background: var(--glass-dark);
+  border: 1px solid rgba(255, 255, 255, 0.06)
+}
+
+.card.dragging {
+  opacity: 0.6;
+  transform: scale(1.02)
+}
+
+.card .studentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.card .cardDate {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted-light)
+}
+
+body.dark .cardDate {
+  color: var(--muted-dark)
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 60px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px
+}
+
+.row div {
+  font-size: 13px
+}
+
+.check {
+  display: flex;
+  gap: 8px;
+  align-items: center
+}
+
+.check input[type=checkbox] {
+  width: 18px;
+  height: 18px
+}
+
+.points {
+  font-weight: 700;
+  text-align: right
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(15, 23, 42, 0.06)
+}
+
+body.dark .total {
+  border-top: 1px dashed rgba(255, 255, 255, 0.06)
+}
+
+.small {
+  font-size: 12px;
+  color: var(--muted-light)
+}
+
+body.dark .small {
+  color: var(--muted-dark)
+}
+
+/* pequenas animações */
+.fade-in {
+  animation: fade .35s ease both
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--card-grad-light);
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  min-width: 320px;
+  max-width: 90vw;
+}
+
+body.dark .modal-content {
+  background: var(--card-grad-dark);
+}
+
+.modal-content label {
+  font-size: 13px;
+}
+
+.modal-content input[type="text"] {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.modal-days {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.modal-error {
+  color: #e00;
+  font-size: 13px;
+  margin-bottom: 8px;
+}

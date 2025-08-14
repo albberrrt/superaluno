@@ -273,9 +273,10 @@ document.getElementById('filterDay').addEventListener('change', (e) => {
 
 (function seed() {
   const d = loadData(); if (d.students.length === 0) {
-    d.students = [{ id: 's1', name: 'João', days: [1] },
-    { id: 's2', name: 'Mariana', days: [3, 5] },
-    { id: 's3', name: 'Carlos', days: [2] }];
+    d.students = [
+      { id: 's1', name: 'Tio Igor', days: [1] },
+      { id: 's2', name: 'John Doe', days: [1, 2] }
+    ];
     d.cards = [];
     d.students.forEach(s => s.days.forEach(day => d.cards.push({
       id: uid(8),
@@ -297,7 +298,8 @@ document.getElementById('filterDay').addEventListener('change', (e) => {
   }
 
   // aplicar tema salvo
-  const theme = localStorage.getItem(THEME_KEY) || 'light'; if (theme === 'dark') document.body.classList.add('dark');
+  const theme = localStorage.getItem(THEME_KEY) || 'light';
+  if (theme === 'dark') document.body.classList.add('dark');
   renderStudents();
   renderBoard();
 })();

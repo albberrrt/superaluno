@@ -36,18 +36,38 @@ function getMondayOfThisWeek() {
   mon.setHours(0, 0, 0, 0);
   return mon;
 }
-function getDateForCurrentWeek(week) {
+function getDateForCurrentWeek(weekDay) {
   const mon = getMondayOfThisWeek();
   const date = new Date(mon);
-  date.setDate(mon.getDate() + (week - 1));
+  date.setDate(mon.getDate() + (weekDay - 1));
   return formatDate(date);
 }
 
 // initialize columns
 const board = document.getElementById('board');
 function makeColumns() {
-  board.innerHTML = ''; for (let i = 1; i <= 6; i++) {
-    const col = document.createElement('div'); col.className = 'column'; col.dataset.day = i; const header = document.createElement('div'); header.className = 'col-header'; const title = document.createElement('div'); title.className = 'title'; title.textContent = days[i - 1]; const subtitle = document.createElement('div'); subtitle.className = 'date small'; subtitle.id = 'colDate_' + i; subtitle.textContent = getDateForCurrentWeek(i); header.appendChild(title); header.appendChild(subtitle); const cardsWrap = document.createElement('div'); cardsWrap.className = 'cards'; cardsWrap.dataset.day = i; col.appendChild(header); col.appendChild(cardsWrap);
+  board.innerHTML = '';
+  for (let i = 1; i <= 6; i++) {
+    const col = document.createElement('div');
+    col.className = 'column';
+    col.dataset.day = i;
+    const header = document.createElement('div');
+    header.className = 'col-header';
+    const title = document.createElement('div');
+    title.className = 'title';
+    title.textContent = days[i - 1];
+    const subtitle = document.createElement('div');
+    subtitle.className = 'date small';
+    subtitle.id = 'colDate_' + i;
+    subtitle.textContent = getDateForCurrentWeek(i);
+    header.appendChild(title);
+    header.appendChild(subtitle);
+    const cardsWrap = document.createElement('div');
+    cardsWrap.className = 'cards';
+    cardsWrap.dataset.day = i;
+    col.appendChild(header);
+    col.appendChild(cardsWrap);
+
     // drag/drop
     col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('over') });
     col.addEventListener('dragleave', e => { col.classList.remove('over') });
@@ -57,20 +77,83 @@ function makeColumns() {
 }
 
 // render students list
-function renderStudents() { const data = loadData(); const list = document.getElementById('studentsList'); list.innerHTML = ''; data.students.forEach(s => { const p = document.createElement('div'); p.className = 'student-pill'; p.innerHTML = `<div style="min-width:0"><strong>${s.name}</strong><div class="small">${s.days.map(d => days[d - 1]).join(', ')}</div></div><div style='display:flex;gap:6px;align-items:center'><button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>Criar</button><button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>Exportar</button><button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>Excluir</button></div>`; list.appendChild(p); }); }
+function renderStudents() {
+  const data = loadData();
+  const list = document.getElementById('studentsList');
+  list.innerHTML = '';
+  data.students.forEach(student => {
+    const { id, name, days } = student;
+    const p = document.createElement('div');
+    p.className = 'student-pill';
+    p.innerHTML = `<div style="min-width:0"><strong>${name}</strong><div class="small">${days.map(day => days[day - 1]).join(', ')}</div></div><div style='display:flex;gap:6px;align-items:center'><button class='ghost small' data-id='${id}' onclick='createCardsForStudent("${id}")'>Criar</button><button class='ghost small' data-id='${id}' onclick='exportStudent("${id}")'>Exportar</button><button class='ghost small' data-id='${id}' onclick='deleteStudent("${id}")'>Excluir</button></div>`;
+    list.appendChild(p);
+  });
+}
 
 // create card object (data.dateStr: default para a data desta semana)
-function createCard(studentId, day, dateStr = null, provisional = false) { const data = loadData(); const card = { id: uid(8), studentId, day, dateStr: dateStr || getDateForCurrentWeek(day), states: { good: false, material: false, level: false, project: false, activity: false }, provisional: !!provisional, absent: false }; data.cards.push(card); saveData(data); renderBoard(); return card; }
+function createCard(studentId, day, dateStr = null, provisional = false) {
+  const data = loadData();
+  const card = {
+    id: uid(8),
+    studentId,
+    day,
+    dateStr: dateStr || getDateForCurrentWeek(day),
+    states: { good: false, material: false, level: false, project: false, activity: false },
+    provisional: !!provisional,
+    absent: false
+  };
+  data.cards.push(card);
+  saveData(data);
+  renderBoard();
+  return card;
+}
 
 // create cards for a student for their scheduled days (replaces existing regular cards for that student)
-function createCardsForStudent(studentId) { const data = loadData(); const student = data.students.find(s => s.id === studentId); if (!student) return; data.cards = data.cards.filter(c => !(c.studentId === studentId && !c.provisional)); student.days.forEach(d => { data.cards.push({ id: uid(8), studentId, day: d, dateStr: getDateForCurrentWeek(d), states: { good: false, material: false, level: false, project: false, activity: false }, provisional: false, absent: false }); }); saveData(data); renderBoard(); renderStudents(); }
+function createCardsForStudent(studentId) {
+  const data = loadData();
+  const student = data.students.find(student => student.id === studentId);
+  if (!student) return;
+  data.cards = data.cards.filter(card => !(card.studentId === studentId && !card.provisional));
+  student.days.forEach(d => {
+    data.cards.push({
+      id: uid(8),
+      studentId,
+      day: d,
+      dateStr: getDateForCurrentWeek(d),
+      states: { good: false, material: false, level: false, project: false, activity: false },
+      provisional: false,
+      absent: false
+    });
+  });
+  saveData(data);
+  renderBoard();
+  renderStudents();
+}
 
 function deleteStudent(id) { if (!confirm('Remover aluno e seus cards?')) return; const data = loadData(); data.students = data.students.filter(s => s.id !== id); data.cards = data.cards.filter(c => c.studentId !== id); saveData(data); renderStudents(); renderBoard(); }
 
 // render board with cards
 function renderBoard() {
-  const data = loadData(); makeColumns(); data.cards.forEach(card => {
-    const wrap = board.querySelector('.cards[data-day="' + card.day + '"]'); if (!wrap) return; const tpl = document.getElementById('cardTemplate'); const el = tpl.content.firstElementChild.cloneNode(true); el.dataset.id = card.id; el.classList.add('fade-in'); el.querySelector('.studentName').textContent = (data.students.find(s => s.id === card.studentId) || { name: '(Aluno?)' }).name; el.querySelector('.cardDate').textContent = card.dateStr; if (card.absent) el.querySelector('.markAbsent').textContent = 'Ausente ✓'; if (card.provisional) { const b = document.createElement('span'); b.textContent = ' Provisório'; b.className = 'small'; b.style.opacity = 0.8; el.querySelector('.studentName').appendChild(b); }
+  const data = loadData();
+  makeColumns();
+  data.cards.forEach(card => {
+    const wrap = board.querySelector('.cards[data-day="' + card.day + '"]');
+    if (!wrap) return;
+    const tpl = document.getElementById('cardTemplate');
+    const el = tpl.content.firstElementChild.cloneNode(true);
+    el.dataset.id = card.id; el.classList.add('fade-in');
+    el.querySelector('.studentName').textContent = (data.students.find(s => s.id === card.studentId) || {
+      name: '(Aluno?)'
+    }).name;
+    el.querySelector('.cardDate').textContent = card.dateStr;
+    if (card.absent) el.querySelector('.markAbsent').textContent = 'Ausente ✓';
+    if (card.provisional) {
+      const b = document.createElement('span');
+      b.textContent = ' Provisório';
+      b.className = 'small';
+      b.style.opacity = 0.8;
+      el.querySelector('.studentName').appendChild(b);
+    }
 
     // checkbox wiring
     const map = [['chk-good', 'good'], ['chk-material', 'material'], ['chk-level', 'level'], ['chk-project', 'project'], ['chk-activity', 'activity']];
@@ -103,16 +186,34 @@ function moveCardToDay(cardId, day) { const data = loadData(); const c = data.ca
 function showAddModal() { const name = prompt('Nome do aluno'); if (!name) return; const daysStr = prompt('Dias (1=Segunda ... 6=Sábado). Separe por vírgula para múltiplos. Ex: 1,3'); if (!daysStr) return; const daysArr = daysStr.split(',').map(s => Number(s.trim())).filter(n => n >= 1 && n <= 6); if (daysArr.length === 0) return alert('Nenhum dia válido fornecido'); const data = loadData(); const id = uid(8); data.students.push({ id, name, days: daysArr }); daysArr.forEach(d => data.cards.push({ id: uid(8), studentId: id, day: d, dateStr: getDateForCurrentWeek(d), states: { good: false, material: false, level: false, project: false, activity: false }, provisional: false, absent: false })); saveData(data); renderStudents(); renderBoard(); }
 
 // create card via student list button
-window.createCardsForStudent = createCardsForStudent; window.deleteStudent = deleteStudent;
+window.createCardsForStudent = createCardsForStudent;
+window.deleteStudent = deleteStudent;
 
-
-
-function getCardTotal(c) { const keys = ['good', 'material', 'level', 'project', 'activity']; let t = 0; keys.forEach(k => { t += c.absent ? 0 : (c.states?.[k] ? 3 : 0); }); return t; }
+function getCardTotal(card) {
+  const keys = ['good', 'material', 'level', 'project', 'activity'];
+  let total = 0;
+  keys.forEach(key => { total += card.absent ? 0 : (card.states?.[key] ? 3 : 0); });
+  return total;
+}
 
 // reset week: remove provisional cards, reset states and set dates to this week's dates
 document.getElementById('resetWeekBtn').addEventListener('click', () => {
   if (!confirm('Resetar semana: limpar pontos, mover datas para a semana atual e remover cards provisórios?')) return;
-  const data = loadData(); data.cards = data.cards.filter(c => !c.provisional); data.cards.forEach(c => { c.states = { good: false, material: false, level: false, project: false, activity: false }; c.absent = false; c.dateStr = getDateForCurrentWeek(c.day); }); saveData(data); renderBoard();
+  const data = loadData();
+  data.cards = data.cards.filter(card => !card.provisional);
+  data.cards.forEach(card => {
+    card.states = {
+      good: false,
+      material: false,
+      level: false,
+      project: false,
+      activity: false
+    };
+    card.absent = false;
+    card.dateStr = getDateForCurrentWeek(card.day);
+  });
+  saveData(data);
+  renderBoard();
 });
 
 // save button (local)

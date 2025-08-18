@@ -12,19 +12,53 @@
   <script src="./js/export-pdf-script.js" defer></script>
 
   <link rel="stylesheet" href="./css/styles.css" />
-
 </head>
 
 <body>
   <header>
     <h1>Sistema de Pontuação Semanal</h1>
-    <div class="top-controls">
-      <button id="addStudentBtn">+ Cadastrar aluno</button>
-      <button id="exportWeekBtn">Exportar PDF da semana</button>
-      <button id="exportStudentBtn">Exportar por aluno</button>
-      <button id="resetWeekBtn" class="ghost">Resetar semana</button>
-      <button id="themeToggle" class="ghost">Alternar tema</button>
-    </div>
+    <nav class="top-controls">
+      <ul>
+        <li>
+          <button id="addStudentBtn">+ Cadastrar aluno</button>
+        </li>
+        <li>
+          <button id="exportWeekBtn">Exportar PDF da semana</button>
+        </li>
+        <li>
+          <button id="exportStudentBtn">Exportar por aluno</button>
+        </li>
+        <li>
+          <button id="resetWeekBtn" class="ghost">Resetar semana</button>
+        </li>
+        <li>
+          <button id="themeToggle" class="ghost">Alternar tema</button>
+        </li>
+        <li>
+          <div id="dropdownMenu" class="dropdown">
+            <button id="dropdownToggle" class="ghost trigger">Backup</button>
+            <ul class="dropdown-content">
+              <li>
+                <label for="backupDataBtn" class="label-data-backup dropdown-item">Backup rápido</label>
+                <span>∞</span>
+                <input type="button" id="backupDataBtn" style="display:none; opacity: 0;" />
+              </li>
+              <li>
+                <label for="exportDataBtn" class="label-data-export dropdown-item">Exportar dados</label>
+                <span>↓</span>
+                <input type="button" id="exportDataBtn" style="display:none; opacity: 0;" />
+              </li>
+              <li>
+                <label for="importFileInput" class="label-file-upload dropdown-item">Importar dados</label>
+                <span>↑</span>
+                <input type="file" id="importFileInput" accept=".json" style="display:none; opacity: 0;" />
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      </ul>
+    </nav>
   </header>
 
   <div class="container">

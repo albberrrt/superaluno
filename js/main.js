@@ -404,3 +404,17 @@ document.getElementById('filterDay').addEventListener('change', (e) => {
   renderStudents();
   renderBoard();
 })();
+
+//dropdown
+const toggleBtn = document.getElementById('dropdownToggle');
+const menu = document.getElementById('dropdownMenu');
+
+toggleBtn.addEventListener('click', () => {
+  menu.classList.toggle('active');
+});
+document.querySelector("html").addEventListener('click', (e) => {
+  if (e.target !== toggleBtn) {
+    menu.classList.remove('active');
+    document.getElementById('dropdown-content').classList.add('fadeout')
+  }
+})

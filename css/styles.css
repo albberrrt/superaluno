@@ -219,7 +219,8 @@ input,
 select {
   padding: 8px;
   border-radius: 8px;
-  border: 1px solid rgba(15, 23, 42, 0.06)
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  accent-color: var(--accent);
 }
 
 /* corrigir slider horizontal: esconder overflow-x e permitir wrap */
@@ -246,8 +247,9 @@ select {
 }
 
 body.dark .student-pill {
-  background: linear-gradient(90deg, #24303a, #1b2830);
-  color: #e6eef8
+  background: rgb(255, 255, 255, 0.03);
+  color: #e6eef8;
+  border: 1px rgba(229, 229, 229, 0.1) solid;
 }
 
 .main {
@@ -391,7 +393,17 @@ body.dark .total {
 
 .small {
   font-size: 12px;
-  color: var(--muted-light)
+  color: var(--muted-light);
+}
+button.small {
+  min-width: 48px;
+  min-height: 32px;
+  font-size: 12px;
+  color: var(--muted-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 body.dark .small {

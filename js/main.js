@@ -7,6 +7,20 @@ const STORAGE_KEY = 'school_weekly_v1';
 const THEME_KEY = 'school_theme_v1';
 const days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
+const deleteIcon = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+  </svg>`;
+const exportIcon =
+  `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+  </svg>`;
+const addIcon =
+  `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+  </svg>`;
+
 // ✨ Main Functions
 function loadData() {
   try {
@@ -85,7 +99,7 @@ function renderStudents() {
     const { id, name, days } = student;
     const p = document.createElement('div');
     p.className = 'student-pill';
-    p.innerHTML = `<div style="min-width:0"><strong>${name}</strong><div class="small">${days.map(day => days[day - 1]).join(', ')}</div></div><div style='display:flex;gap:6px;align-items:center'><button class='ghost small' data-id='${id}' onclick='createCardsForStudent("${id}")'>Criar</button><button class='ghost small' data-id='${id}' onclick='exportStudent("${id}")'>Exportar</button><button class='ghost small' data-id='${id}' onclick='deleteStudent("${id}")'>Excluir</button></div>`;
+    p.innerHTML = `<div style="min-width:0"><strong>${name}</strong><div class="small">${days.map(day => days[day - 1]).join(', ')}</div></div><div style='display:flex;gap:6px;align-items:center'><button class='ghost small' data-id='${id}' onclick='createCardsForStudent("${id}")'>${addIcon}</button><button class='ghost small' data-id='${id}' onclick='exportStudent("${id}")'>${exportIcon}</button><button class='ghost small' data-id='${id}' onclick='deleteStudent("${id}")'>${deleteIcon}</button></div>`;
     list.appendChild(p);
   });
 }
@@ -231,7 +245,12 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
   const data = loadData();
   const list = document.getElementById('studentsList');
   list.innerHTML = '';
-  data.students.filter(s => s.name.toLowerCase().includes(q)).forEach(s => { const p = document.createElement('div'); p.className = 'student-pill'; p.innerHTML = `<div style="min-width:0"><strong>${s.name}</strong><div class="small">${s.days.map(d => days[d - 1]).join(', ')}</div></div><div style='display:flex;gap:6px;align-items:center'><button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>Criar</button><button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>Exportar</button><button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>Excluir</button></div>`; list.appendChild(p); });
+  data.students.filter(s => s.name.toLowerCase().includes(q)).forEach(s => {
+    const p = document.createElement('div');
+    p.className = 'student-pill';
+    p.innerHTML = `<div style="min-width:0"><strong>${s.name}</strong><div class="small">${s.days.map(d => days[d - 1]).join(', ')}</div></div><div style='display:flex;gap:6px;align-items:center'><button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>${addIcon}</button><button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>${exportIcon}</button><button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>${deleteIcon}</button></div>`;
+    list.appendChild(p);
+  });
 });
 
 // add adhoc card
@@ -332,9 +351,9 @@ function renderStudents() {
     p.innerHTML =
       `<div style="min-width:0"><strong>${sanitize(s.name)}</strong><div class="small">${s.days.map(d => days[d - 1]).join(', ')}</div></div>
       <div style='display:flex;gap:6px;align-items:center'>
-        <button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>Criar</button>
-        <button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>Exportar</button>
-        <button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>Excluir</button>
+        <button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>${addIcon}</button>
+        <button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>${exportIcon}</button>
+        <button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>${deleteIcon}</button>
       </div>`;
     list.appendChild(p);
   });
@@ -352,9 +371,15 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
     p.innerHTML =
       `<div style="min-width:0"><strong>${sanitize(s.name)}</strong><div class="small">${s.days.map(d => days[d - 1]).join(', ')}</div></div>
       <div style='display:flex;gap:6px;align-items:center'>
-        <button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>Criar</button>
-        <button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>Exportar</button>
-        <button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>Excluir</button>
+        <button class='ghost small' data-id='${s.id}' onclick='createCardsForStudent("${s.id}")'>
+          ${addIcon}
+        </button>
+        <button class='ghost small' data-id='${s.id}' onclick='exportStudent("${s.id}")'>
+          ${exportIcon}
+        </button>
+        <button class='ghost small' data-id='${s.id}' onclick='deleteStudent("${s.id}")'>
+          ${deleteIcon}
+        </button>
       </div>`;
     list.appendChild(p);
   });

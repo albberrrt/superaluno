@@ -1,24 +1,4 @@
-/* Estrutura em localStorage:
-    
-*/
-
-const uid = (n = 6) => Math.random().toString(36).slice(2, 2 + n);
-const STORAGE_KEY = 'school_weekly_v1';
-const THEME_KEY = 'school_theme_v1';
-const days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-
 // ✨ Main Functions
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : { students: [], cards: [] }
-  } catch (e) {
-    return { students: [], cards: [] }
-  }
-}
-function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
 
 function formatDate(d) {
   const dd = String(d.getDate()).padStart(2, '0');
@@ -384,30 +364,30 @@ document.getElementById('filterDay').addEventListener('change', (e) => {
 // seed inicial (apenas se não existir nada salvo)
 
 (function seed() {
-  const d = loadData(); if (d.students.length === 0) {
-    d.students = [
-      { id: 's1', name: 'Tio Igor', days: [1] },
-      { id: 's2', name: 'John Doe', days: [1, 2] }
-    ];
-    d.cards = [];
-    d.students.forEach(s => s.days.forEach(day => d.cards.push({
-      id: uid(8),
-      studentId: s.id,
-      day,
-      dateStr: getDateForCurrentWeek(day),
-      states: {
-        good: false,
-        material: false,
-        level: false,
-        project: false,
-        activity: false
-      },
-      provisional: false,
-      absent: false
-    }))
-    );
-    saveData(d);
-  }
+  // const d = loadData(); if (d.students.length === 0) {
+  //   d.students = [
+  //     { id: 's1', name: 'Tio Igor', days: [1] },
+  //     { id: 's2', name: 'John Doe', days: [1, 2] }
+  //   ];
+  //   d.cards = [];
+  //   d.students.forEach(s => s.days.forEach(day => d.cards.push({
+  //     id: uid(8),
+  //     studentId: s.id,
+  //     day,
+  //     dateStr: getDateForCurrentWeek(day),
+  //     states: {
+  //       good: false,
+  //       material: false,
+  //       level: false,
+  //       project: false,
+  //       activity: false
+  //     },
+  //     provisional: false,
+  //     absent: false
+  //   }))
+  //   );
+  //   saveData(d);
+  // }
 
   // aplicar tema salvo
   const theme = localStorage.getItem(THEME_KEY) || 'light';

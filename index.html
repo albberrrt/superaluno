@@ -8,6 +8,7 @@
   <!-- html2pdf CDN used for PDF export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
+  <script src="./js/data.js" defer></script>
   <script src="./js/icons.js" defer></script>
   <script src="./js/main.js" defer></script>
   <script src="./js/export-pdf-script.js" defer></script>
@@ -47,12 +48,13 @@
               <li>
                 <label for="exportDataBtn" class="label-data-export dropdown-item">Exportar dados</label>
                 <span>↓</span>
-                <input type="button" id="exportDataBtn" style="display:none; opacity: 0;" />
+                <input type="button" id="exportDataBtn" style="display:none; opacity: 0;" onClick="exportData()" />
               </li>
               <li>
                 <label for="importFileInput" class="label-file-upload dropdown-item">Importar dados</label>
                 <span>↑</span>
-                <input type="file" id="importFileInput" accept=".json" style="display:none; opacity: 0;" />
+                <input type="file" id="importFileInput" accept=".json" style="display:none; opacity: 0;"
+                  onChange="importData(this.files[0])" />
               </li>
             </ul>
           </div>

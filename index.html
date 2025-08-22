@@ -11,6 +11,7 @@
   <script src="./js/data.js" defer></script>
   <script src="./js/icons.js" defer></script>
   <script src="./js/main.js" defer></script>
+  <script src="./js/weekManagement.js" defer></script>
   <script src="./js/export-pdf-script.js" defer></script>
 
   <link rel="stylesheet" href="./css/styles.css" />
@@ -19,6 +20,11 @@
 <body>
   <header>
     <h1>Sistema de Pontuação Semanal</h1>
+    <div id="week-selector">
+      <button onClick="prevWeek()" class="ghost"> ← </button>
+      <span id="current-week-label"></span>
+      <button onClick="nextWeek()" class="ghost"> → </button>
+    </div>
     <nav class="top-controls">
       <ul>
         <li>

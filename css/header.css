@@ -1,0 +1,35 @@
+div#week-selector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  span {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #f5f5f5;
+    width: fit-content;
+    text-indent: 0%;
+    display: inline-block;
+    line-break: nowrap;
+    white-space: nowrap;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+  }
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    line-height: 0;
+  }
+}

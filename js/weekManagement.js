@@ -37,7 +37,7 @@ function getMondayOfISOWeek(week, year) {
 }
 
 function updateWeekLabel() {
-  document.getElementById('current-week-label').innerText = `Semana ${state.week} de ${state.year}`;
+  document.getElementById('current-week-label').innerText = `Semana ${state.week}`;
 }
 
 function setWeek(week, year) {
@@ -53,7 +53,7 @@ function setWeek(week, year) {
   const data = loadData();
   data.cards.forEach(card => {
     const cardDate = new Date(monday);
-    cardDate.setDate(monday.getDate() + (card.date - 1));
+    cardDate.setDate(monday.getDate() + (card.day - 1));
     card.dateStr = formatDate(cardDate);
   })
   saveData(data);
@@ -68,7 +68,6 @@ function prevWeek() {
     state.week -= 1;
   }
   setWeek(state.week, state.year);
-  console.log(`Semana atual: ${state.week}, Ano: ${state.year}`);
 }
 
 function nextWeek() {

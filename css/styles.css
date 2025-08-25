@@ -165,7 +165,11 @@ button {
 button.ghost {
   background: transparent;
   color: var(--muted-light);
-  border: 1px solid rgba(15, 23, 42, 0.06)
+  border: 1px solid rgba(15, 23, 42, 0.06);
+
+  svg {
+    font-weight: 500;;
+  }
 }
 
 body.dark button.ghost {
@@ -192,7 +196,8 @@ body.dark button.ghost {
   border-radius: 14px;
   box-shadow: var(--shadow);
   min-height: 320px;
-  overflow-x: hidden
+  overflow-x: hidden;
+  max-height: fit-content;
 }
 
 body.dark .sidebar {
@@ -230,9 +235,12 @@ select {
   flex-direction: column;
   gap: 6px;
   min-height: 240px;
-  max-height: 100%;
+  max-height: 80vh;
   overflow-y: auto;
-  overflow-x: hidden
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;]
 }
 
 .student-pill {
@@ -244,7 +252,8 @@ select {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  word-break: break-word
+  word-break: break-word;
+  margin-right: 4px;
 }
 
 body.dark .student-pill {
@@ -267,7 +276,7 @@ body.dark .student-pill {
 .board {
   display: grid;
   grid-template-columns: repeat(6, 280px);
-  gap: 12px;
+  gap: 1.5rem;
   align-items: start
 }
 
@@ -287,7 +296,8 @@ body.dark .student-pill {
   background: var(--card-grad-light);
   padding: 12px;
   border-radius: 12px;
-  min-height: 260px
+  min-height: 260px;
+  min-width: fit-content;
 }
 
 body.dark .column {
@@ -320,15 +330,22 @@ body.dark .col-header .date {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 120px
+  min-height: 120px;
+  min-width: fit-content;
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   background: var(--glass-light);
   padding: 10px;
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.06);
-  cursor: grab
+  cursor: grab;
+
+  .studentHeader {
+    margin-bottom: 1rem;
+  }
 }
 
 body.dark .card {
@@ -359,8 +376,8 @@ body.dark .cardDate {
 
 .row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 60px;
-  gap: 8px;
+  grid-template-columns: 110px 1fr 1fr 16px;
+  gap: 16px;
   align-items: center;
   margin-bottom: 6px
 }
@@ -371,13 +388,46 @@ body.dark .cardDate {
 
 .check {
   display: flex;
-  gap: 8px;
-  align-items: center
+  gap: 1px;
+  align-items: center;
+  justify-content: center;
 }
 
 .check input[type=checkbox] {
-  width: 18px;
-  height: 18px
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  padding: 8px 1px 8px 8px;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    background: rgba(245, 245, 245, 0.01 );
+    box-shadow: var(--shadow);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  &:checked::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 10px;
+    height: 10px;
+    line-height: 16px;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    border-radius: 16px;
+    background: rgba(245, 245, 245, 0.8);
+    box-shadow: var(--shadow);
+    transition: background 0.2s ease, border-color 0.2s ease;
+    z-index: 1;
+  }
 }
 
 .points {

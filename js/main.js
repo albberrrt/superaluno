@@ -121,11 +121,12 @@ function renderBoard() {
     if (!wrap) return;
     const tpl = document.getElementById('cardTemplate');
     const el = tpl.content.firstElementChild.cloneNode(true);
-    el.dataset.id = card.id; el.classList.add('fade-in');
+    el.dataset.id = card.id;
+    el.classList.add('fade-in');
     el.querySelector('.studentName').textContent = (data.students.find(s => s.id === card.studentId) || {
       name: '(Aluno?)'
     }).name;
-    el.querySelector('.cardDate').textContent = card.dateStr;
+    // el.querySelector('.cardDate').textContent = card.dateStr; Removed due to repeated information
     if (card.absent) el.querySelector('.markAbsent').textContent = 'Ausente ✓';
     if (card.provisional) {
       const b = document.createElement('span');

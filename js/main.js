@@ -3,9 +3,11 @@ const milisecondsInWeek = 604800000; // 7 * 24 * 60 * 60 * 1000
 // ✨ Main Functions
 
 const getWeekState = () => {
+  console.log('week', document.getElementById('current-week-label').dataset.week);
   return document.getElementById('current-week-label').dataset.week;
 }
 const getYearState = () => {
+  console.log('year', document.getElementById('current-week-label').dataset.year);
   return document.getElementById('current-week-label').dataset.year;
 }
 
@@ -25,12 +27,27 @@ function getMondayOfThisWeek() {
   mon.setHours(0, 0, 0, 0);
   return mon;
 }
+
 function getDateForCurrentWeek(weekDay) {
-  const mon = getMondayOfThisWeek();
-  const date = new Date(mon);
-  date.setDate(mon.getDate() + (weekDay - 1));
-  return formatDate(date);
+  if (getWeekState() && getYearState()) {
+    const mon = getMondayOfISOWeek(getWeekState(), getYearState());
+    const date = new Date(mon);
+    date.setDate(mon.getDate() + (weekDay - 1));
+    return formatDate(date);
+  } else {
+    const mon = getMondayOfThisWeek();
+    const date = new Date(mon);
+    date.setDate(mon.getDate() + (weekDay - 1));
+    return formatDate(date);
+  }
 }
+
+// function getDateForCurrentWeek(weekDay) {
+//   const mon = getMondayOfThisWeek();
+//   const date = new Date(mon);
+//   date.setDate(mon.getDate() + (weekDay - 1));
+//   return formatDate(date);
+// }
 
 function getISOWeek(date) {
   const temp = new Date(date.valueOf());
@@ -80,7 +97,7 @@ function makeColumns() {
     const subtitle = document.createElement('div');
     subtitle.className = 'date small';
     subtitle.id = 'colDate_' + i;
-    subtitle.textContent = getMondayOfISOWeek(getWeekState, getYearState);
+    subtitle.textContent = getDateForCurrentWeek(i);
     header.appendChild(title);
     header.appendChild(subtitle);
     const cardsWrap = document.createElement('div');

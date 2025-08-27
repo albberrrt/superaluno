@@ -29,7 +29,7 @@
             d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
         </svg>
       </button>
-      <span id="current-week-label"></span>
+      <label for="current-week-label">Semana</label><input type="number" id="current-week-label"></L>
       <button onClick="nextWeek()" class="ghost">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
           class="bi bi-arrow-right-short" viewBox="0 0 16 16">
@@ -87,7 +87,7 @@
     <aside class="sidebar">
       <div class="form-row">
         <label>Pesquisar aluno</label>
-        <input id="searchInput" placeholder="Nome..." />
+        <input type="text" id="searchInput" placeholder="Nome..." />
       </div>
       <div class="form-row">
         <label>Filtro por dia</label>
@@ -176,7 +176,7 @@
       <h3>Cadastrar aluno</h3>
       <div class="modal-error" id="modalError"></div>
       <label for="modalStudentName">Nome do aluno</label>
-      <input type="text" id="modalStudentName" maxlength="40" autocomplete="off" />
+      <input placeholder="Nome" type="text" id="modalStudentName" maxlength="40" autocomplete="off" />
       <label>Dias de aula</label>
       <div class="modal-days" id="modalDays">
         <label><input type="checkbox" value="1" />Segunda</label>

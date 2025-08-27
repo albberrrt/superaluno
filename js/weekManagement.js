@@ -5,7 +5,7 @@ const state = {
 
 function updateWeekLabel() {
   const weekLabel = document.getElementById('current-week-label');
-  weekLabel.innerText = `Semana ${state.week}`;
+  weekLabel.value = state.week;
   weekLabel.dataset.week = state.week;
   weekLabel.dataset.year = state.year;
 }

@@ -31,14 +31,22 @@ body {
   background-repeat: no-repeat;
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
 }
 
 body.dark {
   background: var(--bg-dark);
+    background-attachment: fixed;
+  background-position: center top;
+  background-repeat: no-repeat;
   color: #eef2ff
 }
 
 header {
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -184,9 +192,10 @@ body.dark button.ghost {
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: 16px;
-  margin-top: 18px;
-  overflow-x: auto;
-  padding-bottom: 8px
+  margin-top: 5%;
+  /* overflow-x: auto; */
+  padding-bottom: 8px;
+  z-index: 1000;
 }
 
 /* sidebar */
@@ -283,7 +292,7 @@ option {
   overflow-x: hidden;
   scrollbar-width: thin;
   scroll-behavior: smooth;
-  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;]
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
 }
 
 .student-pill {
@@ -375,6 +384,9 @@ body.dark .col-header .date {
   gap: 8px;
   min-height: 120px;
   min-width: fit-content;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch;
 }
 
 .card {
@@ -385,6 +397,9 @@ body.dark .col-header .date {
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.06);
   cursor: grab;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch;
 
   .studentHeader {
     margin-bottom: 1rem;

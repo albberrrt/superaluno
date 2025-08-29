@@ -3,6 +3,17 @@ const state = {
   week: getISOWeek(new Date()),
 }
 
+function changeToWeek() {
+  const weekLabel = document.getElementById('current-week-label');
+  const newWeek = parseInt(weekLabel.value);
+  if (isNaN(newWeek) || newWeek < 1 || newWeek > 53) {
+    alert('Semana inválida. Insira um número entre 1 e 53.');
+    weekLabel.value = state.week;
+    return;
+  }
+  setWeek(newWeek, state.year);
+}
+
 function updateWeekLabel() {
   const weekLabel = document.getElementById('current-week-label');
   weekLabel.value = state.week;

@@ -259,10 +259,11 @@ document.getElementById('resetWeekBtn').addEventListener('click', () => {
 // adicionando botao de salvar no header não necessário, mas mantido para compatibilidade
 
 // persistir tema
-document.getElementById('themeToggle').addEventListener('click', () => {
-  const isDark = document.body.classList.toggle('dark');
-  localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
-});
+// document.getElementById('themeToggle').addEventListener('click', () => {
+//   const isDark = document.body.classList.toggle('dark');
+//   localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+// });
+// Manter o tema é um saco, mas não descarto no futuro.
 
 // Pesquisa & filtro
 document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -449,8 +450,7 @@ document.getElementById('filterDay').addEventListener('change', (e) => {
   // }
 
   // aplicar tema salvo
-  const theme = localStorage.getItem(THEME_KEY) || 'light';
-  if (theme === 'dark') document.body.classList.add('dark');
+  document.body.classList.add('dark');
   renderStudents();
   renderBoard();
 })();

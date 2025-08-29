@@ -31,7 +31,7 @@
       </button>
       <div>
         <label for="current-week-label">Semana</label>
-        <input type="number" id="current-week-label"></input>
+        <input type="number" id="current-week-label" onChange="changeToWeek()"></input>
       </div>
       <button onClick="nextWeek()" class="ghost">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -55,9 +55,9 @@
         <li>
           <button id="resetWeekBtn" class="ghost">Resetar semana</button>
         </li>
-        <li>
-          <button id="themeToggle" class="ghost">Alternar tema</button>
-        </li>
+        <!-- <li>
+          <button id="themeToggle" class="ghost">Alternar tema</button> Manter temas é um saco, mas não descarto no futuro.
+        </li> -->
         <li>
           <div id="dropdownMenu" class="dropdown">
             <button id="dropdownToggle" class="ghost trigger">Backup</button>
@@ -85,35 +85,36 @@
       </ul>
     </nav>
   </header>
+  <div class="container-scroll-fix">
+    <div class="container">
+      <aside class="sidebar">
+        <div class="form-row">
+          <label>Pesquisar aluno</label>
+          <input type="text" id="searchInput" placeholder="Nome..." />
+        </div>
+        <div class="form-row">
+          <label>Filtro por dia</label>
+          <select id="filterDay">
+            <option value="all">Todos os dias</option>
+            <option value="1">Segunda</option>
+            <option value="2">Terça</option>
+            <option value="3">Quarta</option>
+            <option value="4">Quinta</option>
+            <option value="5">Sexta</option>
+            <option value="6">Sábado</option>
+          </select>
+        </div>
 
-  <div class="container">
-    <aside class="sidebar">
-      <div class="form-row">
-        <label>Pesquisar aluno</label>
-        <input type="text" id="searchInput" placeholder="Nome..." />
-      </div>
-      <div class="form-row">
-        <label>Filtro por dia</label>
-        <select id="filterDay">
-          <option value="all">Todos os dias</option>
-          <option value="1">Segunda</option>
-          <option value="2">Terça</option>
-          <option value="3">Quarta</option>
-          <option value="4">Quinta</option>
-          <option value="5">Sexta</option>
-          <option value="6">Sábado</option>
-        </select>
-      </div>
+        <h3 style="margin-top:8px">Alunos</h3>
+        <div class="students-list" id="studentsList"></div>
+        <div style="margin-top:8px" class="small">Dica: arraste o card para mover o dia da aula. Crie cards provisórios
+          para reposições.</div>
+      </aside>
 
-      <h3 style="margin-top:8px">Alunos</h3>
-      <div class="students-list" id="studentsList"></div>
-      <div style="margin-top:8px" class="small">Dica: arraste o card para mover o dia da aula. Crie cards provisórios
-        para reposições.</div>
-    </aside>
-
-    <main class="main">
-      <div class="board" id="board"></div>
-    </main>
+      <main class="main">
+        <div class="board" id="board"></div>
+      </main>
+    </div>
   </div>
 
   <!-- Templates -->

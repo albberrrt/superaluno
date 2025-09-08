@@ -204,7 +204,33 @@ function renderBoard() {
     updatePointsDisplay(el, card);
 
     // absent toggle
-    el.querySelector('.markAbsent').addEventListener('click', () => { card.absent = !card.absent; el.querySelector('.markAbsent').textContent = card.absent ? 'Ausente ✓' : 'Ausente'; saveData(data); updatePointsDisplay(el, card); });
+    el.querySelector('.markAbsent').addEventListener('click', () => {
+      card.absent = !card.absent;
+      el.querySelector('.markAbsent').textContent = card.absent ? 'Ausente ✓' : 'Ausente';
+
+      if (card.absent) {
+        // desmarcar tudo
+        map.forEach(([cls, prop]) => { card.states[prop] = false; const cb = el.querySelector('.' + cls); const cbNo = el.querySelector('.chk-no-' + (prop)); if (cb) cb.checked = false; if (cbNo) cbNo.checked = false; });
+        el.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+        el.classList.toggle('absent');
+      }
+      if (!card.absent) {
+        el.classList.remove('absent');
+      }
+
+      saveData(data);
+      updatePointsDisplay(el, card);
+    });
+
+    if (card.absent) {
+      // desmarcar tudo
+      map.forEach(([cls, prop]) => { card.states[prop] = false; const cb = el.querySelector('.' + cls); const cbNo = el.querySelector('.chk-no-' + (prop)); if (cb) cb.checked = false; if (cbNo) cbNo.checked = false; });
+      el.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+      el.classList.toggle('absent');
+    }
+    if (!card.absent) {
+      el.classList.remove('absent');
+    }
 
     // delete
     el.querySelector('.delCard').addEventListener('click', () => { if (confirm('Remover card?')) { const d = loadData(); d.cards = d.cards.filter(c => c.id !== card.id); saveData(d); renderBoard(); } });

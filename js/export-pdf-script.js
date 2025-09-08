@@ -145,7 +145,7 @@ document.getElementById('exportStudentBtn').addEventListener('click', () => {
 
     const studentName = s.name.replace(/\s+/g, '_');
     const currentWeek = `${getDateForCurrentWeek(1)}_a_${getDateForCurrentWeek(6)}`;
-    const filename = `Relatorioo_${studentName}_${currentWeek}.pdf`;
+    const filename = `Relatorio_${studentName}_${currentWeek}.pdf`;
     const opt = {
       margin: 0.2,
       filename,

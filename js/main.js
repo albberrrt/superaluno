@@ -453,6 +453,7 @@ document.getElementById('filterDay').addEventListener('change', (e) => {
   document.body.classList.add('dark');
   renderStudents();
   renderBoard();
+
 })();
 
 //dropdown
